@@ -1,6 +1,3 @@
-//routing with page.js
-page.base('/');
+$("#content").load("partials/home.html")
 
-page('/', routing.home);
-page('/page1', page1);
-page('/page2', routing.page2);
+$(".page1").click(routing.page1);
