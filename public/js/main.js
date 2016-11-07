@@ -1,3 +1,2 @@
-$("#content").load("partials/home.html")
-
-$(".page1").click(routing.page1);
+var year = new Date().getFullYear();
+$('#copyright').html("Copyright © "+year+" Olivia Giesbrecht");
