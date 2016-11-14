@@ -5,6 +5,7 @@ var copyright = new Vue({
 });
 
 const currentRoute = window.location.pathname;
+const baseUrl = window.location.hostname;
 
 switch(currentRoute){
     case '/':
@@ -43,5 +44,23 @@ switch(currentRoute){
             }
         });
         break;
-        
+    case '/login':
+        var admin = new Vue({
+            el: '#admin',
+            data: {username: "", password: "", errorMessage: ""},
+            methods: {
+                submitLogin: function(username, password){
+                    this.$http.post('/login', {username: username, password: password}).then(response=>{
+                        if(response.body === "Incorrect username or password!")
+                            this.errorMessage = response.body;
+                    });
+                },
+                resetAdmin: function(){
+                    this.$http.post('/resetAdmin').then(response=>{
+
+                    });
+                }
+            }
+        });
+        break;
 }
