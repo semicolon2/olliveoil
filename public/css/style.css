@@ -15,7 +15,6 @@
     margin-bottom: 15px;
 }
 
-
 .gallery-overlay{
     position: absolute;
     margin: inherit;
@@ -54,15 +53,30 @@ body {
     background-color: #92d18a;
 }
 
+.home-image-container {
+    overflow: hidden;
+}
+
+.home-image {
+    width: 100%;
+    height: auto;
+}
+
+.pink-line {
+    height: 12px;
+    width: 100%;
+    background-color: #eba9a9;
+    margin: 5px 0 5px 0;
+}
+
 #copyright {
-    position: static;
+    position: absolute;
     bottom: 0;
-    right: 15px;
+    left: 15px;
 }
 
 #footer-links {
-    position: static;
+    position: absolute;
     bottom: 0;
-    left: 15px;
-    float: right;
+    right: 15px;
 }

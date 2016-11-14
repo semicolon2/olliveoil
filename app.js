@@ -19,6 +19,10 @@ app.get('/', (req,res)=>{
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
+app.get('/gallery', (req,res)=>{
+    res.sendFile(path.join(__dirname, '/public/gallery.html'));
+});
+
 //start server
 app.listen(4000, ()=>{
   console.log('listening on port 4000');

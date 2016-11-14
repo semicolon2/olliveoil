@@ -56,14 +56,14 @@
 
 <div class="pink-line"></div>
 
-<div id="home">
-    <div class="col-md-4 col-md-offset-2">
-        <h2>Hello!</h2>
-        <h3>this is my portfolio</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </div>
-    <div class="col-md-4 home-image-container">
-        <img class="home-image" :src="homeImage" />
+<div id="gallery" class="container">
+    <div class="row">
+        <div v-for="item in items" class="col-lg-2 col-md-4 col-xs-6 gallery-item">
+            <img :src="item.src" />
+            <div class="gallery-overlay">
+                <p class="gallery-hover">{{item.title}}</p>
+            </div>
+        </div>
     </div>
 </div>
 
