@@ -50,14 +50,20 @@ switch(currentRoute){
             data: {username: "", password: "", errorMessage: ""},
             methods: {
                 submitLogin: function(username, password){
-                    this.$http.post('/login', {username: username, password: password}).then(response=>{
-                        if(response.body === "Incorrect username or password!")
-                            this.errorMessage = response.body;
+                    this.$http.post('/login', {username: username, password: password}).then((response)=>{
+                    },(response)=>{
+                        if(response.status == (400 || 401)){
+                            this.errorMessage = "Incorrect username or password!";
+                        } else if (response.status == 500){
+                            this.errorMessage = "Server error, try again.";
+                        }
                     });
                 },
                 resetAdmin: function(){
-                    this.$http.post('/resetAdmin').then(response=>{
-
+                    this.$http.get('/resetAdmin').then((response)=>{
+                        console.log(response.status);
+                    },(response)=>{
+                        console.log(response.status);
                     });
                 }
             }

@@ -21,16 +21,19 @@ var app = express();
 function isLoggedIn(req, res, next) {
 
     // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()){
+        console.log('is authenticated');
         return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/login');
+    } else {
+        console.log("not authenticated");
+        res.redirect('/login');
+    }
 }
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
@@ -50,14 +53,48 @@ app.get('/login', (req,res)=>{
     res.sendFile(path.join(__dirname, '/public/login.html'));
 });
 
-app.get('/admin', isLoggedIn, function(req, res){
+app.get('/admin', isLoggedIn, (req, res)=>{
     res.sendFile(path.join(__dirname, '/public/admin.html'));
 });
 
 //===============resource routes=================================
+app.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/admin',
+    failureRedirect: ''
+}));
 
-
-
+app.get('/resetAdmin', (req, res)=>{
+    process.nextTick(function(){
+        User.findOne({'username':'admin'}, function(err, user){
+            if(err){
+                console.log(err);
+                res.send('server error');
+                return;
+            }
+            if(user){
+                user.password = user.generateHash(env.adminPass);
+                user.save(function(err){
+                    if(err){
+                        res.send(err);
+                        return;
+                    }
+                });
+                res.send("success");
+            } else {
+                var newUser = new User();
+                newUser.username = 'admin';
+                newUser.password = newUser.generateHash(env.adminPass);
+                newUser.save(function(err){
+                    if(err){
+                        res.send(err);
+                        return;
+                    }
+                });
+                res.send("success");
+            }
+        });
+    });
+});
 
 //start server
 app.listen(env.listenPort, ()=>{
