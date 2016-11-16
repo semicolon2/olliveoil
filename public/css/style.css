@@ -69,6 +69,11 @@ body {
     margin: 5px 0 5px 0;
 }
 
+.logout {
+    float: right;
+    margin: 30px;
+}
+
 #copyright {
     position: absolute;
     bottom: 0;

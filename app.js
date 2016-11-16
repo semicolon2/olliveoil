@@ -6,6 +6,18 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 const env = require('./env.js');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, path.join(__dirname, '/uploads'));
+    },
+    filename: function(req, file, cb){
+        cb(null, file.originalname);
+    }
+});
+
+var upload = multer({storage: storage});
 
 var passport = require('passport');
 require('./auth.js')(passport);
@@ -39,6 +51,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(session({secret: env.secret}));
 app.use(passport.initialize());
+app.use(passport.session());
 
 //==============page routes======================================
 app.get('/', (req,res)=>{
@@ -62,6 +75,11 @@ app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/admin',
     failureRedirect: ''
 }));
+
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/login');
+});
 
 app.get('/resetAdmin', (req, res)=>{
     process.nextTick(function(){
@@ -94,6 +112,11 @@ app.get('/resetAdmin', (req, res)=>{
             }
         });
     });
+});
+
+app.post('/upload', upload.single('fileInput'), function(req, res, next){
+    console.log(req.file.path);
+    res.status(200).end();
 });
 
 //start server

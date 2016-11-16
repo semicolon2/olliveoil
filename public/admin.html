@@ -8,15 +8,40 @@
 </head>
 
 <body>
+    <div id="admin">
+        <a href="/">
+            <img src="img/OG.png" />
+        </a>
+        <h1 style="display:inline;">Admin</h1>
 
-<a href="/">
-    <img src="img/OG.png" />
-</a>
-<h1 style="display:inline;">Admin</h1>
+        <button class="btn btn-default logout" @click.prevent="logout()">Logout</button>
 
-<div class="pink-line"></div>
+        <div class="pink-line"></div>
 
-<h2>Logged in</h2>
+        <div class="container">
+            <div class="row">
+                <form class="col-sm-4" id="upload-form">
+                    <div class="form-group">
+                        <label for="gallery-options">Gallery</label>
+                        <select class="form-control" id="gallery-options" name="galleryOption" v-model="galleryOption">
+                            <option value="Traditional">Traditional</option>
+                            <option value="Digital">Digital</option>
+                            <option value="some">some</option>
+                            <option value="other">other</option>
+                            <option value="options">options</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file-input">File</label>
+                        <input type="file" id="file-input" name="fileInput" class="form-control" />
+                    </div>
+                    <button class="btn btn-primary" v-on:click.prevent="onSubmit()">Upload</button>
+                    <h5 class="bg-danger">{{errorMessage}}</h5>
+                </form>
+            </div>
+        </div>
+
+    </div>
 
   <footer class="container">
       <i id="copyright">{{copyrightText}}</i>
