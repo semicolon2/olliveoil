@@ -23,7 +23,7 @@ var admin = new Vue({
                 formData.append('gallery', gallery);
                 formData.append('name', name)
                 formData.append('fileInput', fileInput.files[0]);
-                this.$http.post('/upload', formData, {headers: {'content-type':'multipart/form-data; boundary=XXXXXXXX'}}).then((response)=>{                
+                this.$http.post('/upload', formData, {headers: {'content-type':'multipart/form-data; boundary=XXXXXXXX'}}).then((response)=>{
                     if(response.body.gallery == this.galleryOption){
                         this.galleryItems.push(response.body);
                     }
@@ -34,6 +34,11 @@ var admin = new Vue({
             this.galleryItems = [];
             this.$http.get('/galleryItems/'+gallery).then((response)=>{
                 this.galleryItems = response.body;
+            });
+        },
+        onRemove: function(item, index){
+            this.$http.delete('/delete/'+item._id).then(()=>{
+                this.galleryItems.splice(index, 1);
             });
         }
     }

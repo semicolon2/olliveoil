@@ -85,6 +85,10 @@ body {
 }
 
 .footer-container {
+    height: 1.2rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
     display: flex;
     justify-content: space-between;
 }
@@ -92,11 +96,11 @@ body {
 #copyright {
     position: relative;
     bottom: 0;
-    left: 0;
+    left: 15px;
 }
 
 #footer-links {
     position: relative;
     bottom: 0;
-    right: 0;
+    right: 15px;
 }

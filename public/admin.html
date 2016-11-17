@@ -51,11 +51,11 @@
 
                 <div class="col-sm-8">
                     <div class="row">
-                        <div v-for="item in galleryItems" class="col-lg-2 col-md-4 col-xs-6 gallery-item">
+                        <div v-for="(item, index) in galleryItems" class="col-lg-2 col-md-4 col-xs-6 gallery-item">
                             <img :src="'/uploads/'+galleryOption +'/'+ item.fileName" />
                             <div class="gallery-overlay">
                                 <p class="gallery-hover">{{item.name}}</p>
-                                <button class="btn btn-danger">Remove</button>
+                                <button class="btn btn-danger" v-on:click.prevent="onRemove(item, index)">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
 
     </div>
 
-  <footer class="container">
+  <footer class="footer-container">
       <i id="copyright">{{copyrightText}}</i>
 
       <i id="footer-links">
