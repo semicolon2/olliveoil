@@ -15,6 +15,12 @@
     margin-bottom: 15px;
 }
 
+.gallery-item img {
+    display: block;
+    margin: auto;
+    height: 120%;
+}
+
 .gallery-overlay{
     position: absolute;
     margin: inherit;
@@ -74,14 +80,23 @@ body {
     margin: 30px;
 }
 
+.gallery-select {
+    margin-top: 30px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 #copyright {
-    position: absolute;
+    position: relative;
     bottom: 0;
-    left: 15px;
+    left: 0;
 }
 
 #footer-links {
-    position: absolute;
+    position: relative;
     bottom: 0;
-    right: 15px;
+    right: 0;
 }

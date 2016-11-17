@@ -1,43 +1,41 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const env = require('./env.js');
-var multer = require('multer');
+const multer = require('multer');
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, path.join(__dirname, '/uploads'));
+        cb(null, path.join(__dirname, '/public/uploads/'+req.body.gallery));
     },
     filename: function(req, file, cb){
         cb(null, file.originalname);
     }
 });
 
-var upload = multer({storage: storage});
+const upload = multer({storage: storage});
 
-var passport = require('passport');
+const passport = require('passport');
 require('./auth.js')(passport);
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/olliveoil');
-var User = require('./models/user.js');
-var Gallery = require('./models/gallery.js');
+const User = require('./models/user.js');
+const Gallery = require('./models/gallery.js');
 
-var app = express();
+const app = express();
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated()){
-        console.log('is authenticated');
         return next();
     } else {
-        console.log("not authenticated");
         res.redirect('/login');
     }
 }
@@ -86,37 +84,72 @@ app.get('/resetAdmin', (req, res)=>{
         User.findOne({'username':'admin'}, function(err, user){
             if(err){
                 console.log(err);
-                res.send('server error');
+                res.status(500).end();
                 return;
             }
             if(user){
                 user.password = user.generateHash(env.adminPass);
                 user.save(function(err){
                     if(err){
-                        res.send(err);
+                        res.status(500).end();
                         return;
                     }
                 });
-                res.send("success");
+                res.status(200);
             } else {
                 var newUser = new User();
                 newUser.username = 'admin';
                 newUser.password = newUser.generateHash(env.adminPass);
                 newUser.save(function(err){
                     if(err){
-                        res.send(err);
+                        res.status(500).end();
                         return;
                     }
                 });
-                res.send("success");
+                res.status(200).end();
             }
         });
     });
 });
 
 app.post('/upload', isLoggedIn, upload.single('fileInput'), function(req, res, next){
-    console.log(req.file.path);
-    res.status(200).end();
+    var newItem = {gallery:req.body.gallery, name:req.body.name, fileName:req.file.filename, path:req.file.path};
+    Gallery.findOneAndUpdate({'gallery':req.body.gallery, 'name':req.body.name}, newItem, {upsert:true}, function(err, item){
+        if(err){
+            console.log(err);
+            return res.status(500).end();
+        } else {
+            return res.status(200).send(item);
+        }
+    });
+});
+
+app.delete('/delete/:id', isLoggedIn, function(req, res){
+    Gallery.findByIdAndRemove(req.params.id, function(err, item){
+        if(err){
+            console.log(err);
+            return res.status(500).end();
+        } else {
+            fs.unlink(item.path, function(err){
+                if(err){
+                    console.log(err);
+                    return res.status(500).end();
+                } else {
+                    return res.status(200).end();
+                }
+            });
+        }
+    });
+});
+
+app.get('/galleryItems/:gallery', function(req, res){
+    Gallery.find({'gallery':req.params.gallery}, 'name fileName', function(err, galleryItems){
+        if(err){
+            console.log(err);
+            return res.status(500).end();
+        }
+        res.status(200).send(galleryItems);
+    });
 });
 
 //start server

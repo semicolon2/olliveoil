@@ -9,12 +9,28 @@
 
 <body>
     <div id="admin">
-        <a href="/">
-            <img src="img/OG.png" />
-        </a>
-        <h1 style="display:inline;">Admin</h1>
 
-        <button class="btn btn-default logout" @click.prevent="logout()">Logout</button>
+        <div class="row">
+            <div class="col-sm-5">
+                <a href="/">
+                    <img src="img/OG.png" />
+                </a>
+                <h1 style="display:inline;">Admin</h1>
+            </div>
+
+            <div class="form-group col-sm-2 gallery-select">
+                <label for="gallery-options">Gallery</label>
+                <select class="form-control" id="gallery-options" name="galleryOption" v-model="galleryOption" v-on:change="updateGallery(galleryOption)">
+                    <option value="Traditional">Traditional</option>
+                    <option value="Digital">Digital</option>
+                    <option value="some">some</option>
+                    <option value="other">other</option>
+                    <option value="options">options</option>
+                </select>
+            </div>
+            <button class="btn btn-default logout" @click.prevent="logout()">Logout</button>
+
+        </div>
 
         <div class="pink-line"></div>
 
@@ -22,22 +38,28 @@
             <div class="row">
                 <form class="col-sm-4" id="upload-form">
                     <div class="form-group">
-                        <label for="gallery-options">Gallery</label>
-                        <select class="form-control" id="gallery-options" name="galleryOption" v-model="galleryOption">
-                            <option value="Traditional">Traditional</option>
-                            <option value="Digital">Digital</option>
-                            <option value="some">some</option>
-                            <option value="other">other</option>
-                            <option value="options">options</option>
-                        </select>
+                        <label for="image-name">Name</label>
+                        <input type="text" id="image-name" name="imageName" class="form-control" v-model="imageName" />
                     </div>
                     <div class="form-group">
                         <label for="file-input">File</label>
                         <input type="file" id="file-input" name="fileInput" class="form-control" />
                     </div>
-                    <button class="btn btn-primary" v-on:click.prevent="onSubmit()">Upload</button>
+                    <button class="btn btn-primary" v-on:click.prevent="onSubmit(galleryOption, imageName)">Upload</button>
                     <h5 class="bg-danger">{{errorMessage}}</h5>
                 </form>
+
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div v-for="item in galleryItems" class="col-lg-2 col-md-4 col-xs-6 gallery-item">
+                            <img :src="'/uploads/'+galleryOption +'/'+ item.fileName" />
+                            <div class="gallery-overlay">
+                                <p class="gallery-hover">{{item.name}}</p>
+                                <button class="btn btn-danger">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
