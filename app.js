@@ -25,7 +25,7 @@ require('./auth.js')(passport);
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/olliveoil');
 var User = require('./models/user.js');
-
+var Gallery = require('./models/gallery.js');
 
 var app = express();
 
@@ -114,7 +114,7 @@ app.get('/resetAdmin', (req, res)=>{
     });
 });
 
-app.post('/upload', upload.single('fileInput'), function(req, res, next){
+app.post('/upload', isLoggedIn, upload.single('fileInput'), function(req, res, next){
     console.log(req.file.path);
     res.status(200).end();
 });
