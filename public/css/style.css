@@ -55,8 +55,12 @@
     opacity: 1;
 }
 
+html{min-height:100%;position:relative;}
 body {
+    height: 100%;
+    min-height: 100%;
     background-color: #92d18a;
+    padding-bottom: 44px;
 }
 
 .home-image-container {
@@ -85,22 +89,18 @@ body {
 }
 
 .footer-container {
-    height: 1.2rem;
+    height: 14px;
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    position: absolute;;
+    bottom: 30px;
     display: flex;
     justify-content: space-between;
 }
 
 #copyright {
-    position: relative;
-    bottom: 0;
-    left: 15px;
+    margin: 15px;
 }
 
 #footer-links {
-    position: relative;
-    bottom: 0;
-    right: 15px;
+    margin: 15px;
 }
