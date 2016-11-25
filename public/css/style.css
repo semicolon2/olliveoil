@@ -55,12 +55,15 @@
     opacity: 1;
 }
 
-html{min-height:100%;position:relative;}
-body {
+html {
     height: 100%;
-    min-height: 100%;
+}
+
+body {
     background-color: #92d18a;
-    padding-bottom: 44px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 .home-image-container {
@@ -88,11 +91,21 @@ body {
     margin-top: 30px;
 }
 
+.body {
+    min-height:100%;
+    position:relative;
+    padding-bottom: 40px;
+}
+
+.pagination {
+    margin: 40%;
+}
+
 .footer-container {
-    height: 14px;
+    height: 40px;
     width: 100%;
-    position: absolute;;
-    bottom: 30px;
+    bottom: 0;
+    position: relative;
     display: flex;
     justify-content: space-between;
 }

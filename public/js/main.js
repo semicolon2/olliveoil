@@ -17,6 +17,12 @@ switch(currentRoute){
         });
         break;
     case '/gallery':
+        lightbox.option({
+            alwaysShowNavOnTouchDevices: true,
+            fadeDuration: 400,
+            imageFadeDuration: 400,
+            resizeDuration: 300
+        });
         var gallery = new Vue({
             el: '#gallery',
             data: {
