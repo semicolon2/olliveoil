@@ -9,6 +9,8 @@
 </head>
 
 <body>
+<div class="body">
+
 <div class="container">
     <div class="header">
         <div class="header-item">
@@ -58,29 +60,28 @@
 
 <div id="gallery" class="container">
     <div class="row">
-        <div v-for="(item, index) in items" class="col-lg-2 col-md-4 col-xs-6 gallery-item">
-            <a :href="item.src" data-lightbox="gallery" :data-title="item.title">
-                <img :src="item.src" />
+        <div v-for="(item, index) in galleryPage(page)" class="col-lg-2 col-md-4 col-xs-6 gallery-item">
+            <a :href="'/uploads/'+'Traditional' +'/'+ item.fileName" data-lightbox="gallery" :data-title="item.name">
+                <img :src="'/uploads/'+'Traditional' +'/thumb-'+ item.fileName" />
                 <div class="gallery-overlay">
-                    <p class="gallery-hover">{{item.title}}</p>
+                    <p class="gallery-hover">{{item.name}}</p>
                 </div>
             </a>
         </div>
     </div>
-    <nav aria-label="Page Navigation">
+    <nav aria-label="Page Navigation" v-if="pageCount > 1">
         <ul class="pagination">
-            <li>
-                <a href="#" aria-label="previous">
+            <li v-bind:class="{disabled: isPreviousDisabled}">
+                <a @click="page = page - 1" aria-label="previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-              <a href="#" aria-label="Next">
+            <li v-for="n in pageCount">
+                <a v-on:click.prevent="page = n">{{n}}</a>
+            </li>
+
+            <li v-bind:class="{disabled: isNextDisabled}">
+              <a @click="page = page + 1" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -103,6 +104,7 @@
     </i>
 </footer>
 
+</div>
 </body>
 
 <script src="js/vue.js"></script>

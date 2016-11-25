@@ -6,7 +6,7 @@ var copyright = new Vue({
 
 var admin = new Vue({
     el: '#admin',
-    data: {galleryOption: "Traditional", imageName: "", errorMessage: "", galleryItems: []},
+    data: {galleryOption: "Traditional", imageName: "", errorMessage: "", galleryItems: [], uploading: false, croppie: null},
     methods: {
         logout: function(){
             this.$http.get('/logout').then(()=>{
@@ -15,20 +15,33 @@ var admin = new Vue({
         },
         onSubmit: function(gallery, name){
             var fileInput = $('#file-input')[0];
-            if(!fileInput.files[0]){
-                this.errorMessage = "No file chosen!";
+            if(!name){
+                this.errorMessage = "Choose a name!";
             } else {
                 this.errorMessage = "";
-                var formData = new FormData();
-                formData.append('gallery', gallery);
-                formData.append('name', name)
-                formData.append('fileInput', fileInput.files[0]);
-                this.$http.post('/upload', formData, {headers: {'content-type':'multipart/form-data; boundary=XXXXXXXX'}}).then((response)=>{
-                    if(response.body.gallery == this.galleryOption){
-                        this.galleryItems.push(response.body);
-                    }
+                this.croppie.result({type:'blob', size:{width: 300, height: 300}}).then((result)=>{
+                    var formData = new FormData();
+                    formData.append('gallery', gallery);
+                    formData.append('name', name);
+                    formData.append('thumb', result, "thumb-"+fileInput.files[0].name);
+                    formData.append('fileInput', fileInput.files[0]);
+                    this.$http.post('/upload', formData, {headers: {'content-type':'multipart/form-data; boundary=XXXXXXXX'}}).then((response)=>{
+                        this.croppie.destroy();
+                        this.uploading = false;
+                        this.galleryItems.push({fileName: response.body.fileName, name: response.body.name});
+                    });
                 });
             }
+        },
+        onCroppie: function(e){
+            this.uploading = true;
+            var fileSrc = URL.createObjectURL(e.target.files[0]);
+
+            this.croppie = new Croppie($('#croppieAnchor')[0], {
+                boundary: {width: 500, height: 500},
+                viewport: {width: 475, height: 475, type: 'square'}
+            });
+            this.croppie.bind({url:fileSrc});
         },
         updateGallery: function(gallery){
             this.galleryItems = [];

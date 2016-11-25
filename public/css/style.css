@@ -9,16 +9,30 @@
     width: 140px;
 }
 
+.gallery-item-admin {
+    overflow: hidden;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
 .gallery-item {
     overflow: hidden;
-    height: 200px;
+    height: 180px;
     margin-bottom: 15px;
 }
 
 .gallery-item img {
     display: block;
     margin: auto;
-    height: 120%;
+    height: 100%;
+    border: 3px solid black;
+}
+
+.gallery-item-admin img {
+    display: block;
+    margin: auto;
+    height: 100%;
+
 }
 
 .gallery-overlay{
@@ -52,6 +66,14 @@
 }
 
 .gallery-item:hover .gallery-hover {
+    opacity: 1;
+}
+
+.gallery-item-admin:hover .gallery-overlay {
+    opacity: .5;
+}
+
+.gallery-item-admin:hover .gallery-hover {
     opacity: 1;
 }
 
@@ -98,14 +120,22 @@ body {
 }
 
 .pagination {
-    margin: 40%;
+    margin-left: 40%;
+}
+
+.pagination a:hover {
+    cursor: pointer;
+}
+
+.content {
+    overflow: hidden;
 }
 
 .footer-container {
     height: 40px;
     width: 100%;
     bottom: 0;
-    position: relative;
+    position: absolute;
     display: flex;
     justify-content: space-between;
 }
@@ -116,4 +146,13 @@ body {
 
 #footer-links {
     margin: 15px;
+}
+
+.croppie-container {
+    height: auto;
+}
+
+.upload-btn {
+    margin-top: 15px;
+    width: 100%;
 }

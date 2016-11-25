@@ -113,9 +113,10 @@ app.get('/resetAdmin', (req, res)=>{
     });
 });
 
-app.post('/upload', isLoggedIn, upload.single('fileInput'), function(req, res, next){
-    var newItem = {gallery:req.body.gallery, name:req.body.name, fileName:req.file.filename, path:req.file.path};
-    Gallery.findOneAndUpdate({'gallery':req.body.gallery, 'name':req.body.name}, newItem, {upsert:true}, function(err, item){
+app.post('/upload', isLoggedIn, upload.fields([{name: 'fileInput', maxCount: 1}, {name: 'thumb', maxCount: 1}]), function(req, res, next){
+    console.log(req.files);
+    var newItem = {gallery:req.body.gallery, name:req.body.name, fileName:req.files.fileInput[0].filename, path:req.files.fileInput[0].path, thumbPath:req.files.thumb[0].path};
+    Gallery.findOneAndUpdate({'gallery':req.body.gallery, 'name':req.body.name}, newItem, {upsert:true, new:true}, function(err, item){
         if(err){
             console.log(err);
             return res.status(500).end();
@@ -136,7 +137,14 @@ app.delete('/delete/:id', isLoggedIn, function(req, res){
                     console.log(err);
                     return res.status(500).end();
                 } else {
-                    return res.status(200).end();
+                    fs.unlink(item.thumbPath, function(err){
+                        if(err){
+                            console.log(err);
+                            return res.status(500).end();
+                        } else {
+                            return res.status(200).end();
+                        }
+                    });
                 }
             });
         }
