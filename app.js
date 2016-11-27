@@ -58,6 +58,8 @@ app.use(passport.session());
 
 //==============page routes======================================
 app.get('/', (req,res)=>{
+    console.log('what is happening');
+    res.render('index');
 });
 
 app.get('/gallery', (req,res)=>{
@@ -78,7 +80,7 @@ app.post('/login', passport.authenticate('local-login', {
     failureRedirect: ''
 }));
 
-app.get('/logout', function(req, res){
+app.get('/logout', (req, res)=>{
     req.logout();
     res.redirect('/login');
 });
@@ -116,7 +118,7 @@ app.get('/resetAdmin', (req, res)=>{
     });
 });
 
-app.post('/upload', isLoggedIn, upload.fields([{name: 'fileInput', maxCount: 1}, {name: 'thumb', maxCount: 1}]), function(req, res, next){
+app.post('/upload', isLoggedIn, upload.fields([{name: 'fileInput', maxCount: 1}, {name: 'thumb', maxCount: 1}]), (req, res, next)=>{
     console.log(req.files);
     var newItem = {gallery:req.body.gallery, name:req.body.name, fileName:req.files.fileInput[0].filename, path:req.files.fileInput[0].path, thumbPath:req.files.thumb[0].path};
     Gallery.findOneAndUpdate({'gallery':req.body.gallery, 'name':req.body.name}, newItem, {upsert:true, new:true}, function(err, item){
@@ -129,7 +131,7 @@ app.post('/upload', isLoggedIn, upload.fields([{name: 'fileInput', maxCount: 1},
     });
 });
 
-app.delete('/delete/:id', isLoggedIn, function(req, res){
+app.delete('/delete/:id', isLoggedIn, (req, res)=>{
     Gallery.findByIdAndRemove(req.params.id, function(err, item){
         if(err){
             console.log(err);
@@ -154,7 +156,7 @@ app.delete('/delete/:id', isLoggedIn, function(req, res){
     });
 });
 
-app.get('/galleryItems/:gallery', function(req, res){
+app.get('/galleryItems/:gallery', (req, res)=>{
     Gallery.find({'gallery':req.params.gallery}, 'name fileName', function(err, galleryItems){
         if(err){
             console.log(err);
@@ -165,6 +167,6 @@ app.get('/galleryItems/:gallery', function(req, res){
 });
 
 //start server
-app.listen(env.listenPort, "0.0.0.0", ()=>{
+app.listen(env.listenPort, ()=>{
   console.log('listening on port '+env.listenPort);
 });
