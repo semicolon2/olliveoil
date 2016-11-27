@@ -8,6 +8,7 @@ const session = require('express-session');
 const env = require('./env.js');
 const multer = require('multer');
 const fs = require('fs');
+const pug = require('pug');
 
 
 const storage = multer.diskStorage({
@@ -46,7 +47,6 @@ function isLoggedIn(req, res, next) {
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -59,7 +59,7 @@ app.use(passport.session());
 //==============page routes======================================
 app.get('/', (req,res)=>{
     console.log('what is happening');
-    res.render('index');
+    res.render('index.pug');
 });
 
 app.get('/gallery', (req,res)=>{
