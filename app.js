@@ -9,6 +9,7 @@ const env = require('./env.js');
 const multer = require('multer');
 const fs = require('fs');
 
+
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, path.join(__dirname, '/public/uploads/'+req.body.gallery));
@@ -43,6 +44,9 @@ function isLoggedIn(req, res, next) {
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -54,7 +58,6 @@ app.use(passport.session());
 
 //==============page routes======================================
 app.get('/', (req,res)=>{
-  res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
 app.get('/gallery', (req,res)=>{
@@ -162,6 +165,6 @@ app.get('/galleryItems/:gallery', function(req, res){
 });
 
 //start server
-app.listen(env.listenPort, ()=>{
+app.listen(env.listenPort, "0.0.0.0", ()=>{
   console.log('listening on port '+env.listenPort);
 });

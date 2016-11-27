@@ -9,12 +9,7 @@ const baseUrl = window.location.hostname;
 
 switch(currentRoute){
     case '/':
-        var home = new Vue({
-            el: '#home',
-            data: {
-                homeImage: 'http://www.placekitten.com/600/600'
-            }
-        });
+        
         break;
     case '/gallery':
         lightbox.option({
