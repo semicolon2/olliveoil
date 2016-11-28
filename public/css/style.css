@@ -9,6 +9,10 @@
     width: 140px;
 }
 
+.header-full{
+    background-color: #0e6f20;
+}
+
 .gallery-item-admin {
     overflow: hidden;
     height: 100px;
