@@ -47,6 +47,7 @@ function isLoggedIn(req, res, next) {
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -59,19 +60,35 @@ app.use(passport.session());
 //==============page routes======================================
 app.get('/', (req,res)=>{
     console.log('what is happening');
-    res.render('index.pug');
+    res.render('index');
 });
 
-app.get('/gallery', (req,res)=>{
-    res.sendFile(path.join(__dirname, '/public/gallery.html'));
+app.get('/traditional', (req,res)=>{
+    res.render('gallery', {galleryOption: 'Traditional'});
+});
+
+app.get('/digital', (req,res)=>{
+    res.render('gallery', {galleryOption: 'Digital'});
+});
+
+app.get('/photography', (req,res)=>{
+    res.render('gallery', {galleryOption: 'Photography'});
+});
+
+app.get('/ceramics', (req,res)=>{
+    res.render('gallery', {galleryOption: 'Ceramics'});
+});
+
+app.get('/about', (req,res)=>{
+    res.render('about');
 });
 
 app.get('/login', (req,res)=>{
-    res.sendFile(path.join(__dirname, '/public/login.html'));
+    res.render('login');
 });
 
 app.get('/admin', isLoggedIn, (req, res)=>{
-    res.sendFile(path.join(__dirname, '/public/admin.html'));
+    res.render('admin');
 });
 
 //===============resource routes=================================

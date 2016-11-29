@@ -6,7 +6,7 @@ var copyright = new Vue({
 
 var admin = new Vue({
     el: '#admin',
-    data: {galleryOption: "Traditional", imageName: "", errorMessage: "", galleryItems: [], uploading: false, croppie: null},
+    data: {galleryOption: "Traditional", imageName: "", errorMessage: "", galleryItems: [], uploading: false, croppie: null, page: 1, isPreviousDisabled: true, isNextDisabled: false},
     methods: {
         logout: function(){
             this.$http.get('/logout').then(()=>{
@@ -49,10 +49,33 @@ var admin = new Vue({
                 this.galleryItems = response.body;
             });
         },
+        galleryPage: function(page){
+            return this.galleryItems.slice( ((page-1)*24), (page*24) );
+        },
         onRemove: function(item, index){
             this.$http.delete('/delete/'+item._id).then(()=>{
                 this.galleryItems.splice(index, 1);
             });
+        }
+    },
+    computed: {
+        pageCount: function() {
+            return Math.ceil(this.galleryItems.length/24);
+        }
+    },
+    watch: {
+        page: function(){
+            if(this.page > 1){
+                this.isPreviousDisabled = false;
+            } else {
+                this.isPreviousDisabled = true;
+            }
+
+            if(this.page === this.pageCount){
+                this.isNextDisabled = true;
+            } else {
+                this.isNextDisabled = false;
+            }
         }
     }
 });

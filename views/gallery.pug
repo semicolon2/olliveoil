@@ -1,0 +1,32 @@
+extends layout.pug
+
+block append css
+    link(rel="stylesheet" href="css/lightbox.min.css")
+
+block content
+    input(id="gallery-option", type="hidden", value=""+galleryOption)
+    div(id="gallery", class="container")
+        div(class="row")
+            div(v-for="(item, index) in galleryPage(page)", class="col-lg-2 col-md-4 col-xs-6 gallery-item")
+                a(:href="'/uploads/'+galleryOption+'/'+ item.fileName", data-lightbox="gallery", :data-title="item.name")
+                    img(:src="'/uploads/'+galleryOption+'/thumb-'+ item.fileName")
+                    div(class="gallery-overlay")
+                        p(class="gallery-hover")
+                            |{{item.name}}
+        nav(aria-label="Page Navigation", v-if="pageCount > 1")
+            ul(class="pagination")
+                li(v-bind:class="{disabled: isPreviousDisabled}")
+                    a(@click.prevent="page = page - 1", aria-label="previous")
+                        span(aria-hidden="true")
+                            |&laquo;
+                li(v-for="n in pageCount")
+                    a(@click.prevent="page = n")
+                        |{{n}}
+                li(v-bind:class="{disabled: isNextDisabled}")
+                    a(@click.prevent="page = page + 1", aria-label="next")
+                        span(aria-hidden="true")
+                            |&raquo;
+
+block append scripts
+    script(src="js/lightbox.min.js")
+    script(src="js/gallery.js")

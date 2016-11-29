@@ -13,37 +13,23 @@ html
                         a(href="/")
                             img(src="img/OG.png")
                     div(class="header-item")
-                        a(href="/gallery")
+                        a(href="/traditional")
                             img(src="http://www.jadepoint.com/v/vspfiles/assets/images/echepearlevonnurnberg.gif")
                     div(class="header-item")
-                        a(href="/gallery")
+                        a(href="/digital")
                             img(src="https://65.media.tumblr.com/27e36239ac806199650a23bd01d7fdf0/tumblr_nus41h0Isz1ugxmoao1_250.png")
                     div(class="header-item")
-                        a(href="/gallery")
+                        a(href="/photography")
                             img(src="https://static.tumblr.com/a8c92dc694ac9e738b57110369b51597/g7r3qn9/jVNnp2wtj/tumblr_static_bx5jz5cxy28skskkok4ocko8w.png")
                     div(class="header-item")
-                        a(href="/gallery")
+                        a(href="/ceramics")
                             img(src="https://67.media.tumblr.com/6a01fc443347a62e94210d680ae024e1/tumblr_nurxq9eY2F1ugxmoao1_1280.png")
                     div(class="header-item")
-                        a(href="/gallery")
+                        a(href="/about")
                             img(src="https://s-media-cache-ak0.pinimg.com/originals/96/34/2f/96342f1067db284d2801df7c8b826b5e.jpg")
             div(class="pink-line")
             block content
-            footer(class="footer-container")
-                i(id="copyright") {{copyrightText}}
-                i(id="footer-links")
-                    a(href="/") home
-                    |&nbsp;|&nbsp;
-                    a(href="gallery") Gallery
-                    |&nbsp;|&nbsp;
-                    a(href="gallery") Gallery
-                    |&nbsp;|&nbsp;
-                    a(href="gallery") Gallery
-                    |&nbsp;|&nbsp;
-                    a(href="gallery") Gallery
-                    |&nbsp;|&nbsp;
-                    a(href="gallery") Gallery
-                    |&nbsp;|&nbsp;
+            include footer.pug
 
     block scripts
         script(src="js/vue.js")

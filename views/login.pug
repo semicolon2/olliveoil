@@ -1,0 +1,29 @@
+html
+    head
+        title Olive admin
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+        link(rel="stylesheet", href="css/style.css")
+    body
+        div(class="body")
+            a(href="/")
+                img(src="img/OG.png")
+            h1(style="display:inline;") Admin
+            div(class="pink-line")
+            div(id="admin", class="col-md-2 col-md-push-5")
+                form
+                    div(class="form-group")
+                        label(for="username") username
+                        input(type="text", class="form-control", id="username", v-model="username")
+                    div(class="form-group")
+                        label(for="password") password
+                        input(type="password", class="form-control", id="password", v-model="password")
+                    button(class="btn btn-default", @click.prevent="submitLogin(username, password)") login
+                    button(class="btn btn-default btn-xs", @click.prevent="resetAdmin()") reset password
+                    h5(class="bg-danger")
+                        |{{errorMessage}}
+            include footer.pug
+script(src="js/vue.js")
+script(src="js/vue-resource.js")
+script(src="https://code.jquery.com/jquery-3.1.1.min.js")
+script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+script(src="js/login.js")
