@@ -59,8 +59,15 @@ app.use(passport.session());
 
 //==============page routes======================================
 app.get('/', (req,res)=>{
-    console.log('what is happening');
-    res.render('index');
+    Gallery.find({},'fileName gallery', function(err, galleryItems){
+        if(err){
+            console.log(err);
+            return res.status(500).end();
+        }
+        res.render('index',{
+            homeImage:galleryItems[Math.floor(Math.random()*(galleryItems.length))]
+        });
+    });
 });
 
 app.get('/traditional', (req,res)=>{

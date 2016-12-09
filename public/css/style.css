@@ -94,6 +94,7 @@ body {
 
 .home-image-container {
     overflow: hidden;
+    max-height: 600px;
 }
 
 .home-image {
