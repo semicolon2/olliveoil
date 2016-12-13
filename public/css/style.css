@@ -56,7 +56,7 @@
 
 .gallery-hover {
     position:absolute;
-    bottom: 0;
+    bottom: 6px;
     left: 5px;
     opacity:0;
     filter:alpha(opacity=0);/*For IE6 - IE8*/
